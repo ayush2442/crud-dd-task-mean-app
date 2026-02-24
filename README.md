@@ -1,5 +1,10 @@
 # MEAN Stack CRUD App
 
+## Live Application
+**http://52.90.150.248/**
+
+---
+
 ## Tech Stack
 - MongoDB, Express.js, Angular 15, Node.js
 - Docker, Docker Compose, Nginx
@@ -76,5 +81,3 @@ Nginx runs on port 80 and proxies:
 
 ### 4. Nginx & Infrastructure
 ![Nginx](<./screenshots/nginx-running.png>)
-
----
