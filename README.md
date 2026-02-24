@@ -1,27 +1,80 @@
-In this DevOps task, you need to build and deploy a full-stack CRUD application using the MEAN stack (MongoDB, Express, Angular 15, and Node.js). The backend will be developed with Node.js and Express to provide REST APIs, connecting to a MongoDB database. The frontend will be an Angular application utilizing HTTPClient for communication.  
+# MEAN Stack CRUD App
 
-The application will manage a collection of tutorials, where each tutorial includes an ID, title, description, and published status. Users will be able to create, retrieve, update, and delete tutorials. Additionally, a search box will allow users to find tutorials by title.
+## Tech Stack
+- MongoDB, Express.js, Angular 15, Node.js
+- Docker, Docker Compose, Nginx
+- GitHub Actions (CI/CD)
+- AWS EC2 (Ubuntu 22.04)
 
-## Project setup
+---
 
-### Node.js Server
+## Repository Structure
+```
+mean-crud-app/
+├── backend/Dockerfile
+├── frontend/Dockerfile
+├── docker-compose.yml
+├── nginx.conf
+└── .github/workflows/deploy.yml
+```
 
-cd backend
+---
 
-npm install
+## Setup & Deployment Instructions
 
-You can update the MongoDB credentials by modifying the `db.config.js` file located in `app/config/`.
+### 1. Clone the Repository
+```bash
+git clone https://github.com/YOUR_USERNAME/mean-crud-app.git
+cd mean-crud-app
+```
 
-Run `node server.js`
+### 2. Build and Push Docker Images
+```bash
+docker build -t YOUR_DOCKERHUB_USERNAME/mean-backend:latest ./backend
+docker build -t YOUR_DOCKERHUB_USERNAME/mean-frontend:latest ./frontend
+docker push YOUR_DOCKERHUB_USERNAME/mean-backend:latest
+docker push YOUR_DOCKERHUB_USERNAME/mean-frontend:latest
+```
 
-### Angular Client
+### 3. Deploy on AWS EC2
+```bash
+ssh -i your-key.pem ubuntu@YOUR_EC2_IP
 
-cd frontend
+docker-compose up -d
+```
 
-npm install
+### 4. Access the App
+Open `http://YOUR_EC2_IP` in your browser.
 
-Run `ng serve --port 8081`
+---
 
-You can modify the `src/app/services/tutorial.service.ts` file to adjust how the frontend interacts with the backend.
+## CI/CD Pipeline
 
-Navigate to `http://localhost:8081/`
+- Trigger: Push to `main` branch
+- Steps: Build images → Push to Docker Hub → SSH into VM → Pull & restart containers
+- Tool: GitHub Actions
+
+---
+
+## Nginx
+Nginx runs on port 80 and proxies:
+- `/` → Angular frontend (port 80)
+- `/api/` → Node.js backend (port 3000)
+
+---
+
+## Screenshots
+
+### 1. CI/CD Pipeline Execution
+![CI/CD](<./screenshots/cicd-pipeline.png>)
+
+### 2. Docker Image Build & Push
+![Docker Push](<./screenshots/docker-push.png>)
+
+### 3. Application UI
+![App UI](<./screenshots/app-ui.png>)
+
+### 4. Nginx & Infrastructure
+![Nginx](<./screenshots/nginx-running.png>)
+
+---
